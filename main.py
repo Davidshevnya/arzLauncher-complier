@@ -10,6 +10,7 @@ def main(path_to_file):
     if os.path.exists(path_to_file) and os.path.isfile(path_to_file):
         logger.info(f"Asar file path: {os.path.realpath(path_to_file)}")
         asar.extract(os.path.realpath(path_to_file))
+        asar.pack()
     else:
         logger.error(f"Asar file was not found.")
 
