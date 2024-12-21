@@ -14,7 +14,7 @@ def extract(path_to_file: str):
             logger.info("Asar file successfully extracted")
         except:
               logger.error(f"Failed to extract asar file", exc_info=True)
-
+              
 def pack():
     utils.setup_output_dir()
     logger.info(f"Pack folder {tmpdir.name} into asar file")
@@ -22,9 +22,7 @@ def pack():
         pack_asar(tmpdir.name, "output/app.asar")
     except:
         logger.error(f"Failed to pack folder into asar file", exc_info=True)
-
-
-
+        
         
         
 

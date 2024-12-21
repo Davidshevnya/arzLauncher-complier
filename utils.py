@@ -1,5 +1,6 @@
 import tempfile
 import os
+import sys
 
 import app_logger
 
@@ -11,6 +12,7 @@ def setup_tmpdir():
         tmpdir.name += "/output"
     except:
         logger.error("Failed to create temporary folder")
+        sys.exit()
     
     return tmpdir
 
@@ -26,6 +28,7 @@ def setup_output_dir():
                 logger.info("app.asar successfully deleted")
             except:
                 logger.error(f"Failed to remove app.asar in {output_dir}")
+                sys.exit()
     else:
         os.makedirs(output_dir)
         logger.info("Output directory successfully created")
