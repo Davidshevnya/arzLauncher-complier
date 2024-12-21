@@ -20,3 +20,4 @@
 
 ## Шаг 6. Запустите лаунчер
 Перетащите app.asar из папки output (скрин ниже) в папку лаунчера resources и запустите лаунчер.
+![alt text](readme/image-2.png)![alt text](readme/image-3.png)
