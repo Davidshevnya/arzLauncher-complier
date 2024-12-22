@@ -35,7 +35,7 @@ def setup_output_dir():
         logger.info("Output directory successfully created")
 
 def find_urls_in_file(file:str, find_by: str):
-    url_pattern = re.compile(r'https?://[^\s\'"<>]+')
+    url_pattern = re.compile(r'https?://[^\s\'"<>;)+]+')
     links = [i for i in url_pattern.findall(file) if find_by in i]
     return links
 
