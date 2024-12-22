@@ -12,6 +12,7 @@ tmpdir = utils.setup_tmpdir()
 
 def extract(path_to_file: str):
         logger.info(f"Extracting asar file in {tmpdir.name}")
+
         try:
             extract_asar(path_to_file, tmpdir.name)
             logger.info("Asar file successfully extracted")
@@ -20,12 +21,13 @@ def extract(path_to_file: str):
               
 def pack():
     utils.setup_output_dir()
+
     logger.info(f"Pack folder {tmpdir.name} into asar file")
+
     try:
         pack_asar(tmpdir.name, "output/app.asar")
     except:
         logger.error(f"Failed to pack folder into asar file", exc_info=True)
-
 
 def change_links_in_files(launcher_type: int):
     if launcher_type not in [1,2,3]:
@@ -42,21 +44,40 @@ def change_links_in_files(launcher_type: int):
          find_by = "arz"
 
     logger.debug(f"Launcher type: {find_by}")
-    bundle_js_path = os.path.join(tmpdir.name, "static/bundle.js")
-    logger.info(f"Opening bundle.js of launcher for replacing urls (path: {bundle_js_path})")
+    
+   
 
-    with open(bundle_js_path, 'r+', encoding="utf-8") as file:
+    main_css_path = os.path.join(tmpdir.name, "static/main.css")
+    bundle_js_path = os.path.join(tmpdir.name, "static/bundle.js")
+
+    utils.replace_urls_in_file(main_css_path, find_by)
+    utils.replace_urls_in_file(bundle_js_path, find_by)
+
+def change_start_game_method():
+    logger.info("Changing startgame method in main.js..")
+
+    main_js_path = os.path.join(tmpdir.name, "build/main.js")
+
+    with open(main_js_path, 'r+', encoding="utf-8") as file:
         content = file.read()
-        logger.info("Replacing urls in bundle.js..")
 
         try:
-            urls = utils.find_urls_in_file(content, find_by)
-            new_content = utils.replace_urls_in_file(content, urls)
+            content = content.replace(
+                'return "gamestarter.exe"', 
+                'return "gta_sa.exe"'
+            )
+            content = content.replace(
+                r'`"${i}\\${a}" ${c} -a ${t} -p ${n} -g arizona `',
+                r'`"${i}\\${a}" -c ${c}  -h ${t} -p ${n} -arizona -mem 2048 -x`'
+            )
+            
             file.seek(0)
-            file.write(new_content)
+            file.write(content)
             file.truncate()
 
-            logger.info("Successfully replacing urls in bundle.js!")
+            logger.info("Successfully change start game method in main.js")
         except:
-            logger.error("Failed replacing urls in bundle.js!", exc_info=True)
+            logger.error("Failed change start game method in main.js",
+                         exc_info=True)
             sys.exit()
+

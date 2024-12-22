@@ -39,10 +39,30 @@ def find_urls_in_file(file:str, find_by: str):
     links = [i for i in url_pattern.findall(file) if find_by in i]
     return links
 
-def replace_urls_in_file(file: str, urls: list[str]):
-    content = file
-    for url in urls:
-        new_url = input(f"Enter new url instead of {url}\n")
-        logger.info(f"Replacing {new_url} instead of {url}")
-        content = content.replace(url, new_url)
-    return content
+def replace_urls_in_file(file_path: str, find_by: str):
+    with open(file_path, "r+", encoding="utf-8") as file:
+        content = file.read()
+
+        file_name = os.path.split(file_path)[-1]
+
+        logger.info(f"Replacing urls in {file_name}..")
+
+        try:
+            urls = find_urls_in_file(content, find_by)
+
+            for url in urls:
+                new_url = input(f"Enter new url instead of {url}\nNew url:")
+                logger.info(f"Replacing {new_url} instead of {url}")
+                content = content.replace(url, new_url)
+
+            file.seek(0)
+            file.write(content)
+            file.truncate()
+
+            logger.info(f"Successfully replacing urls in {file_name}!")
+        except:
+            logger.error(f"Failed replacing urls in {file_name}", exc_info=True)
+            sys.exit()
+        
+
+
