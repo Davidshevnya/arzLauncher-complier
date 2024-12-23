@@ -13,7 +13,7 @@
 Вот как это должно выглядеть: ![alt text](readme/image-1.png)
 ## Шаг 4. Установка зависимостей и запуск main.py
 Откройте командную строку в папке проекта и пропишите две следующих  команды: <br>
-### ```pip install -r requirements. txt```<br>
+### ```pip install -r requirements.txt```<br>
 ### ```python main.py app.asar```
 
 ## Шаг 5. Выберите тип лаунчера и укажите ссылки
